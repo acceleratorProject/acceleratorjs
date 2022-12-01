@@ -28,7 +28,8 @@
     "eslint-plugin-n": "^15.5.1",
     "eslint-plugin-promise": "^6.1.1",
     "onchange": "^7.1.0",
-    "prettier": "^2.8.0"
+    "prettier": "^2.8.0",
+    "standard": "^17.0.0"
   },
   "dependencies": {
     "enquirer": "^2.3.6",
@@ -39,5 +40,14 @@
     "mri": "^1.2.0",
     "prompts": "^2.4.2",
     "semver": "^7.3.8"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/standard/eslintrc.json"
+    ],
+    "rules": {
+      "space-before-function-paren": "off",
+      "indent": "off"
+    }
   }
 }
