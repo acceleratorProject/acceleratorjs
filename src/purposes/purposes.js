@@ -1,24 +1,42 @@
 import { blue, green, magenta, red } from 'kolorist'
-
-export const purposes = [
+export const initialPurposes = [
   {
     name: 'linting',
     display: 'Linting',
-    color: blue
+    color: blue,
+    selected: true
   },
   {
     name: 'styling',
     display: 'Styling',
-    color: red
+    color: red,
+    selected: false
   },
   {
     name: 'testing',
     display: 'Testing',
-    color: green
+    color: green,
+    selected: false
   },
   {
     name: 'architecture',
     display: 'Architecture',
-    color: magenta
+    color: magenta,
+    selected: false
+  }
+]
+
+export const lintingPurposes = [
+  {
+    name: 'eslint',
+    display: 'ESlint',
+    color: magenta,
+    selected: true
+  },
+  {
+    name: 'prettier',
+    display: 'Prettier',
+    color: blue,
+    selected: true
   }
 ]
