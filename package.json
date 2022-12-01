@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/index.js",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
+    "prettier:format": "prettier --config .prettierrc src//*.ts --write",
+    "prettier:watch": "onchange src//*.js -- prettier --write {{changed}}"
   },
   "repository": {
     "type": "git",
@@ -15,5 +19,18 @@
   "bugs": {
     "url": "https://github.com/acceleratorProject/acceleratorjs/issues"
   },
-  "homepage": "https://github.com/acceleratorProject/acceleratorjs#readme"
+  "homepage": "https://github.com/acceleratorProject/acceleratorjs#readme",
+  "devDependencies": {
+    "eslint": "^8.28.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.5.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "onchange": "^7.1.0",
+    "prettier": "^2.8.0"
+  },
+  "dependencies": {
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1"
+  }
 }
