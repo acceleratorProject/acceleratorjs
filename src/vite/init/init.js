@@ -32,7 +32,7 @@ const renameFiles = {
 
 const defaultTargetDir = 'accelerator-project'
 
-export async function init() {
+export async function initVite() {
   const argTargetDir = formatTargetDir(argv._[0])
   const argTemplate = argv.template || argv.t
 
@@ -261,7 +261,3 @@ function pkgFromUserAgent(userAgent) {
     version: pkgSpecArr[1]
   }
 }
-
-// init().catch((e) => {
-//   console.error(e)
-// })
