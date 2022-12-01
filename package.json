@@ -1,0 +1,19 @@
+{
+  "name": "@acceleratorproject/acceleratorjs",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acceleratorProject/acceleratorjs.git"
+  },
+  "author": "Josu Hernandez @erunan-josu Alex Tomas @alexxtomas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/acceleratorProject/acceleratorjs/issues"
+  },
+  "homepage": "https://github.com/acceleratorProject/acceleratorjs#readme"
+}
