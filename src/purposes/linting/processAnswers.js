@@ -2,7 +2,6 @@ import { Legacy } from '@eslint/eslintrc'
 const { ConfigOps } = Legacy
 
 export function processAnswers(answers) {
-  console.log(answers)
   // answers.purpose = 'style'
   // answers.moduleType = 'esm'
   const config = {
@@ -32,21 +31,18 @@ export function processAnswers(answers) {
   if (answers.framework === 'react') {
     config.plugins = ['react']
     config.extends.push('plugin:react/recommended')
-  } else if (answers.framework === 'vue') {
-    config.plugins = ['vue']
-    config.extends.push('plugin:vue/vue3-essential')
   }
 
   // if answers.source == "guide", the ts supports should be in the shared config.
-  if (answers.typescript && answers.source !== 'guide') {
-    config.parser = '@typescript-eslint/parser'
+  // if (answers.typescript && answers.source !== 'guide') {
+  //   config.parser = '@typescript-eslint/parser'
 
-    if (Array.isArray(config.plugins)) {
-      config.plugins.push('@typescript-eslint')
-    } else {
-      config.plugins = ['@typescript-eslint']
-    }
-  }
+  //   if (Array.isArray(config.plugins)) {
+  //     config.plugins.push('@typescript-eslint')
+  //   } else {
+  //     config.plugins = ['@typescript-eslint']
+  //   }
+  // }
 
   // set config.extends based the selected guide
   if (answers.source === 'guide') {
