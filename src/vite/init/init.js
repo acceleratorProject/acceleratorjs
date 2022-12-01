@@ -168,6 +168,8 @@ export async function initVite() {
   )
 
   indications(pkg, packageName, getProjectName, write, root, pkgManager)
+
+  return framework.name
 }
 
 function indications(

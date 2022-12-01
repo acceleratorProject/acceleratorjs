@@ -50,7 +50,6 @@ export function customConfig(earlyAnswers) {
 
       const config = processAnswers(totalAnswers)
       const modules = getModulesList(config)
-      console.log(totalAnswers)
 
       return askInstallModules(modules).then(() =>
         writeFile(config, earlyAnswers.format)
