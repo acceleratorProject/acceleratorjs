@@ -1,3 +1,3 @@
-import { initAccelerator } from './initAccelerator.js'
+import { initializeAccelerator } from './initializeAccelerator.js'
 
-initAccelerator().catch((e) => console.error(e))
+initializeAccelerator().catch((e) => console.error(e))

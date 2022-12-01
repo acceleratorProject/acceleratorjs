@@ -32,7 +32,7 @@ const renameFiles = {
 
 const defaultTargetDir = 'accelerator-project'
 
-export async function initVite() {
+export async function initializeVite() {
   const argTargetDir = formatTargetDir(argv._[0])
   const argTemplate = argv.template || argv.t
 

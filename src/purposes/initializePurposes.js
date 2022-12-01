@@ -1,18 +1,19 @@
 import prompts from 'prompts'
 import { initActions } from '../actions/init.js'
-import { purposes } from './purposes.js'
-export const initPurpose = async (framework) => {
+import { initialPurposes } from './purposes.js'
+export const initializePurposes = async (framework) => {
   const questions = [
     {
       type: 'multiselect',
       name: 'purpose',
       message: 'What do you want to configure with accelerator?',
       hint: '- Space to select. Return to submit',
-      choices: purposes.map((purpose) => {
+      choices: initialPurposes.map((purpose) => {
         const purposeColor = purpose.color
         return {
           title: purposeColor(purpose.display || purpose.name),
-          value: purpose
+          value: purpose,
+          selected: purpose.selected
         }
       })
     }
