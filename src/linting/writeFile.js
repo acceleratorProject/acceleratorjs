@@ -3,7 +3,6 @@ import * as ConfigFile from './config-file.js'
 import * as npmUtils from './npm-utils.js'
 import { info } from './shared/logging.js'
 export async function writeFile(config, format) {
-  // default is .js
   let extname = '.js'
 
   if (format === 'YAML') {

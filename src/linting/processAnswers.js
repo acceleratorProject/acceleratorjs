@@ -2,6 +2,9 @@ import { Legacy } from '@eslint/eslintrc'
 const { ConfigOps } = Legacy
 
 export function processAnswers(answers) {
+  console.log(answers)
+  // answers.purpose = 'style'
+  // answers.moduleType = 'esm'
   const config = {
     rules: {},
     env: {},
@@ -14,13 +17,13 @@ export function processAnswers(answers) {
   config.env.es2021 = true
 
   // set the module type
-  if (answers.moduleType === 'esm') {
-    config.parserOptions.sourceType = 'module'
-  } else if (answers.moduleType === 'commonjs') {
-    config.env.commonjs = true
-  }
+  if (answers.moduleType === 'esm') config.parserOptions.sourceType = 'module'
+  // } else if (answers.moduleType === 'commonjs') {
+  //   config.env.commonjs = true
+  // }
 
   // add in browser and node environments if necessary
+  if (!answers.env) answers.env = ['browser']
   answers.env.forEach((env) => {
     config.env[env] = true
   })
@@ -60,10 +63,7 @@ export function processAnswers(answers) {
     }
   }
 
-  // setup rules based on problems/style enforcement preferences
-  if (answers.purpose === 'problems') {
-    config.extends.unshift('eslint:recommended')
-  } else if (answers.purpose === 'style') {
+  if (answers.purpose === 'style') {
     if (answers.source === 'prompt') {
       config.extends.unshift('eslint:recommended')
       config.rules.indent = ['error', answers.indent]
