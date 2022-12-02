@@ -1,28 +1,10 @@
-/**
- * @fileoverview Utility for executing npm commands.
- * @author Ian VanSchooten
- */
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
 import spawn from 'cross-spawn'
 import fs from 'fs'
 
 import path from 'path'
+import { state } from '../../../state/state.js'
 import * as log from './shared/logging.js'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
-/**
- * Find the closest package.json file, starting at process.cwd (by default),
- * and working up to root.
- * @param {string} [startDir=process.cwd()] Starting directory
- * @returns {string} Absolute path to closest package.json file
- */
 function findPackageJson(startDir) {
   let dir = path.resolve(startDir || process.cwd())
 
@@ -38,24 +20,26 @@ function findPackageJson(startDir) {
   return null
 }
 
-// ------------------------------------------------------------------------------
-// Private
-// ------------------------------------------------------------------------------
-
-/**
- * Install node modules synchronously and save to devDependencies in package.json
- * @param {string|string[]} packages Node module or modules to install
- * @param {string} packageManager Package manager to use for installation.
- * @returns {void}
- */
 function installSyncSaveDev(packages, packageManager = 'npm') {
+  // yarn --cwd ./accelerator-project add -D express
   const packageList = Array.isArray(packages) ? packages : [packages]
-  const installCmd = packageManager === 'yarn' ? 'add' : 'install'
-  const installProcess = spawn.sync(
-    packageManager,
-    [installCmd, '-D'].concat(packageList),
-    { stdio: 'inherit' }
-  )
+  let installProcess
+  if (packageManager === 'npm') {
+    installProcess = spawn.sync(
+      packageManager,
+      ['install', '-D', '--prefix', `./${state.packageName}`].concat(
+        packageList
+      ),
+      { stdio: 'inherit' }
+    )
+  } else if (packageManager === 'yarn') {
+    installProcess = spawn.sync(
+      packageManager,
+      ['--cwd', `./${state.packageName}`, 'add', '-D'].concat(packageList),
+      { stdio: 'inherit' }
+    )
+  }
+
   const error = installProcess.error
 
   if (error && error.code === 'ENOENT') {

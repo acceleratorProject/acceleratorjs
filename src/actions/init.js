@@ -1,5 +1,5 @@
 import { options } from './options.js'
 
-export async function initActions(actions, framework) {
-  actions.map((name) => options[name].action(framework))
+export async function initActions(actions) {
+  actions?.map((name) => options[name].action())
 }

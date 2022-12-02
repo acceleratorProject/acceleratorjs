@@ -4,6 +4,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import prompts from 'prompts'
+import { state } from '../../state/state.js'
 
 const argv = minimist(process.argv.slice(2), { string: ['_'] })
 const cwd = process.cwd()
@@ -58,15 +59,16 @@ export async function initializeVite() {
             !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'confirm',
           name: 'overwrite',
           message: () =>
-            (targetDir === '.'
-              ? 'Current directory'
-              : `Target directory "${targetDir}"`) +
-            ' is not empty. Remove existing files and continue?'
+            `${
+              targetDir === '.'
+                ? 'Current directory'
+                : `Target directory "${targetDir}"`
+            } is not empty. Remove existing files and continue?`
         },
         {
           type: (_, { overwrite }) => {
             if (overwrite === false) {
-              throw new Error(red('✖') + ' Operation cancelled')
+              throw new Error(`${red('✖')} Operation cancelled`)
             }
             return null
           },
@@ -116,7 +118,10 @@ export async function initializeVite() {
       ],
       {
         onCancel: () => {
-          throw new Error(red('✖') + ' Operation cancelled')
+          const msg = `${red('✖')} Operation cancelled`
+          state.error = true
+          state.errorMessage = msg
+          throw new Error(msg)
         }
       }
     )
@@ -126,7 +131,6 @@ export async function initializeVite() {
   }
 
   const { framework, overwrite, packageName, variant } = result
-
   console.log(targetDir)
   const root = path.join(cwd, targetDir)
 
@@ -169,7 +173,8 @@ export async function initializeVite() {
 
   indications(pkg, packageName, getProjectName, write, root, pkgManager)
 
-  return framework.name
+  state.framework = framework.name
+  state.packageName = path.relative(cwd, root)
 }
 
 function indications(

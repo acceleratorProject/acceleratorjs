@@ -3,7 +3,8 @@ import { askInstallModules } from './askInstallModules.js'
 import { getModulesList } from './getModulesList.js'
 import { processAnswers } from './processAnswers.js'
 import { writeFile } from './writeFile.js'
-export function customConfig(earlyAnswers) {
+
+export function customConfig(earlyAnswers, packagePath) {
   return enquirer
     .prompt([
       {
@@ -46,13 +47,13 @@ export function customConfig(earlyAnswers) {
       }
     ])
     .then((answers) => {
-      const totalAnswers = Object.assign({}, earlyAnswers, answers)
+      const totalAnswers = { ...earlyAnswers, ...answers }
 
       const config = processAnswers(totalAnswers)
       const modules = getModulesList(config)
 
       return askInstallModules(modules).then(() =>
-        writeFile(config, earlyAnswers.format)
+        writeFile(config, earlyAnswers.format, packagePath)
       )
     })
 }

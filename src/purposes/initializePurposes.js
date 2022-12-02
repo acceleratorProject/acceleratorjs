@@ -1,7 +1,13 @@
 import prompts from 'prompts'
 import { initActions } from '../actions/init.js'
+import { state } from '../state/state.js'
 import { initialPurposes } from './purposes.js'
-export const initializePurposes = async (framework) => {
+
+export const initializePurposes = async () => {
+  if (state.error) {
+    console.error(state.errorMessage)
+    return
+  }
   const questions = [
     {
       type: 'multiselect',
@@ -20,6 +26,6 @@ export const initializePurposes = async (framework) => {
   ]
 
   const answers = await prompts(questions)
-  const formattedAnswers = answers.purpose.map(({ name }) => name)
-  await initActions(formattedAnswers, framework)
+  const formattedAnswers = answers.purpose?.map(({ name }) => name)
+  await initActions(formattedAnswers)
 }

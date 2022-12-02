@@ -31,7 +31,8 @@ export async function askInstallModules(modules) {
         name: 'packageManager',
         message: 'Which package manager do you want to use?',
         initial: 0,
-        choices: ['npm', 'yarn', 'pnpm'],
+        // pnpm disabled
+        choices: ['npm', 'yarn'],
         skip() {
           return !this.state.answers.executeInstallation
         }

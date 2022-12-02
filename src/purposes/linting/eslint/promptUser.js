@@ -1,5 +1,7 @@
 import enquirer from 'enquirer'
+import { red } from 'kolorist'
 import semver from 'semver'
+import { state } from '../../../state/state.js'
 import { askInstallModules } from './askInstallModules.js'
 import { customConfig } from './customConfig.js'
 import { getModulesList } from './getModulesList.js'
@@ -8,6 +10,7 @@ import * as npmUtils from './npm-utils.js'
 import { processAnswers } from './processAnswers.js'
 import { info } from './shared/logging.js'
 import { writeFile } from './writeFile.js'
+
 export function promptUser(framework) {
   const packageJsonExists = npmUtils.checkPackageJson()
 
@@ -96,12 +99,17 @@ export function promptUser(framework) {
         result(input) {
           return this.skipped ? null : input
         }
+      },
+      {
+        onCancel: () => {
+          throw new Error(`${red('✖')} Operation cancelled`)
+        }
       }
     ])
     .then((earlyAnswers) => {
       earlyAnswers.purpose = 'style'
       earlyAnswers.moduleType = 'esm'
-      earlyAnswers.framework = framework
+      earlyAnswers.framework = state.framework
       earlyAnswers.typescript = false
       earlyAnswers.env = ['browser']
 
@@ -119,7 +127,7 @@ export function promptUser(framework) {
           )
         }
 
-        const config = processAnswers(earlyAnswers, framework)
+        const config = processAnswers(earlyAnswers)
         const modules = getModulesList(config)
 
         return askInstallModules(modules).then(() =>

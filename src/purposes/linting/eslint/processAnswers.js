@@ -33,31 +33,22 @@ export function processAnswers(answers) {
     config.extends.push('plugin:react/recommended')
   }
 
-  // if answers.source == "guide", the ts supports should be in the shared config.
-  // if (answers.typescript && answers.source !== 'guide') {
-  //   config.parser = '@typescript-eslint/parser'
-
-  //   if (Array.isArray(config.plugins)) {
-  //     config.plugins.push('@typescript-eslint')
-  //   } else {
-  //     config.plugins = ['@typescript-eslint']
-  //   }
-  // }
-
   // set config.extends based the selected guide
   if (answers.source === 'guide') {
     if (answers.styleguide === 'airbnb' && answers.framework !== 'react') {
       config.extends.push('airbnb-base')
-    } else if (answers.styleguide === 'xo-typescript') {
-      config.extends.push('xo')
-      config.overrides.push({
-        files: ['*.ts', '*.tsx'],
-        extends: ['xo-typescript']
-      })
     } else {
       config.extends.push(answers.styleguide)
     }
   }
+
+  /*   else if (answers.styleguide === 'xo-typescript') {
+    config.extends.push('xo')
+    config.overrides.push({
+      files: ['*.ts', '*.tsx'],
+      extends: ['xo-typescript']
+    })
+  }  */
 
   if (answers.purpose === 'style') {
     if (answers.source === 'prompt') {
