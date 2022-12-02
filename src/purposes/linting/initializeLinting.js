@@ -1,7 +1,12 @@
 import prompts from 'prompts'
-import { lintingPurposes } from '../purposes.js'
 import { options } from '../../actions/options.js'
+import { state } from '../../state/state.js'
+import { lintingPurposes } from '../purposes.js'
 export async function initializeLinting() {
+  if (state.error) {
+    console.error(state.errorMessage)
+    return
+  }
   const questions = [
     {
       type: 'multiselect',

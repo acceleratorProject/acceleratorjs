@@ -6,8 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "eslint --fix --ext .js .",
     "prettier:format": "prettier --config .prettierrc src//*.ts --write",
     "prettier:watch": "onchange src//*.js -- prettier --write {{changed}}"
   },
@@ -22,7 +21,7 @@
   },
   "homepage": "https://github.com/acceleratorProject/acceleratorjs#readme",
   "devDependencies": {
-    "eslint": "^8.28.0",
+    "eslint": "^8.0.1",
     "onchange": "^7.1.0",
     "prettier": "^2.8.0",
     "standard": "^17.0.0"

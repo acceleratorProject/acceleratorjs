@@ -1,8 +1,10 @@
 import fs from 'fs'
+import { state } from '../../../state/state.js'
 import * as ConfigFile from './config-file.js'
 import * as npmUtils from './npm-utils.js'
 import { info } from './shared/logging.js'
-export async function writeFile(config, format) {
+
+export async function writeFile(config, format, packagePath) {
   let extname = '.js'
 
   if (format === 'YAML') {
@@ -22,7 +24,6 @@ export async function writeFile(config, format) {
   }
 
   delete config.installedESLint
-
-  await ConfigFile.write(config, `./.eslintrc${extname}`)
+  await ConfigFile.write(config, `./${state.packageName}/.eslintrc${extname}`)
   info(`Successfully created .eslintrc${extname} file in ${process.cwd()}`)
 }

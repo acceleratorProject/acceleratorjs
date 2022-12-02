@@ -3,7 +3,8 @@ import { askInstallModules } from './askInstallModules.js'
 import { getModulesList } from './getModulesList.js'
 import { promptUser } from './promptUser.js'
 import { writeFile } from './writeFile.js'
-export function initializeConfig() {
+
+export function initializeConfig(packagePath) {
   const argv = mri(process.argv.slice(2))
 
   if (argv.config) {
@@ -14,7 +15,7 @@ export function initializeConfig() {
     const modules = getModulesList(config)
 
     return askInstallModules(modules).then(() =>
-      writeFile(config, 'JavaScript')
+      writeFile(config, 'JavaScript', packagePath)
     )
   }
 
