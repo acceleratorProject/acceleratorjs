@@ -160,16 +160,6 @@ const FRAMEWORKS = [
             name: 'vanilla-vitest',
             display: 'Vitest ',
             color: green
-          },
-          {
-            name: 'vanilla-boostrap-vitest',
-            display: 'Boostrap + Vitest ',
-            color: red
-          },
-          {
-            name: 'vanilla-sass-vitest',
-            display: 'SASS + Vitest ',
-            color: magenta
           }
         ]
       },
@@ -182,16 +172,6 @@ const FRAMEWORKS = [
             name: 'vanilla-cypress',
             display: 'Cypress',
             color: green
-          },
-          {
-            name: 'vanilla-boostrap-cypress',
-            display: 'Boostrap + Cypress',
-            color: red
-          },
-          {
-            name: 'vanilla-sass-cypress',
-            display: 'SASS + Cypress',
-            color: magenta
           }
         ]
       },
@@ -204,16 +184,6 @@ const FRAMEWORKS = [
             name: 'vanilla-vitest-cypress',
             display: 'Vitest + Cypress',
             color: green
-          },
-          {
-            name: 'vanilla-boostrap-vitest-cypress',
-            display: 'Boostrap + Vitest + Cypress',
-            color: red
-          },
-          {
-            name: 'vanilla-sass-vitest-cypress',
-            display: 'SASS + Vitest + Cypress',
-            color: magenta
           }
         ]
       },
@@ -226,16 +196,6 @@ const FRAMEWORKS = [
             name: 'vanilla',
             display: 'Only Vanilla ',
             color: yellow
-          },
-          {
-            name: 'vanilla-boostrap',
-            display: 'Boostrap',
-            color: red
-          },
-          {
-            name: 'vanilla-sass',
-            display: 'SASS',
-            color: magenta
           }
         ]
       }
