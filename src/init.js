@@ -38,6 +38,11 @@ const FRAMEWORKS = [
             name: 'react-tailwind-vitest',
             display: 'Tailwind + Vitest',
             color: magenta
+          },
+          {
+            name: 'react-styled-components-vitest',
+            display: 'Styled-Components + Vitest',
+            color: cyan
           }
         ]
       },
@@ -65,6 +70,11 @@ const FRAMEWORKS = [
             name: 'react-tailwind-cypress',
             display: 'Tailwind + Cypress',
             color: magenta
+          },
+          {
+            name: 'react-styled-components-cypress',
+            display: 'Styled-Components + Cypress',
+            color: cyan
           }
         ]
       },
@@ -92,6 +102,11 @@ const FRAMEWORKS = [
             name: 'react-tailwind-vitest-cypress',
             display: 'Tailwind + Vitest + Cypress',
             color: magenta
+          },
+          {
+            name: 'react-styled-components-vitest-cypress',
+            display: 'Styled-Components + Vitest + Cypress',
+            color: cyan
           }
         ]
       },
@@ -125,6 +140,11 @@ const FRAMEWORKS = [
             name: 'react-tailwind',
             display: 'Tailwind',
             color: magenta
+          },
+          {
+            name: 'react-styled-components',
+            display: 'Styled-Components',
+            color: cyan
           }
         ]
       }
