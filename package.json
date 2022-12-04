@@ -1,6 +1,6 @@
 {
   "name": "@acceleratorproject/acceleratorjs",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,9 @@
     "lint:fix": "eslint --fix --ext .js .",
     "prettier:format": "prettier --config .prettierrc src//*.ts --write",
     "prettier:watch": "onchange src//*.js -- prettier --write {{changed}}"
+  },
+  "bin": {
+    "acceleratorjs": "index.js"
   },
   "repository": {
     "type": "git",
