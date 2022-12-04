@@ -343,7 +343,6 @@ export async function init() {
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
   const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
 
-  console.log(`\nScaffolding project in ${root}...`)
   // Extract template dir
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
