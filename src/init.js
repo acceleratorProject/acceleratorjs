@@ -160,6 +160,11 @@ const FRAMEWORKS = [
             name: 'vanilla-vitest',
             display: 'Vitest ',
             color: green
+          },
+          {
+            name: 'vanilla-tailwind-vitest',
+            display: 'Tailwind + Vitest',
+            color: magenta
           }
         ]
       },
@@ -172,6 +177,11 @@ const FRAMEWORKS = [
             name: 'vanilla-cypress',
             display: 'Cypress',
             color: green
+          },
+          {
+            name: 'vanilla-tailwind-cypress',
+            display: 'Tailwind + Cypress',
+            color: magenta
           }
         ]
       },
@@ -184,6 +194,11 @@ const FRAMEWORKS = [
             name: 'vanilla-vitest-cypress',
             display: 'Vitest + Cypress',
             color: green
+          },
+          {
+            name: 'vanilla-tailwind-vitest-cypress',
+            display: 'Tailwind + Vitest + Cypress',
+            color: magenta
           }
         ]
       },
@@ -196,6 +211,11 @@ const FRAMEWORKS = [
             name: 'vanilla',
             display: 'Only Vanilla ',
             color: yellow
+          },
+          {
+            name: 'vanilla-tailwind',
+            display: 'Tailwind ',
+            color: magenta
           }
         ]
       }
