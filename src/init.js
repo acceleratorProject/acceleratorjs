@@ -122,7 +122,7 @@ const FRAMEWORKS = [
             color: blue
           },
           {
-            name: 'react-tailwind-',
+            name: 'react-tailwind',
             display: 'Tailwind',
             color: magenta
           }
@@ -360,8 +360,6 @@ export async function init() {
 
   const { framework, overwrite, packageName, variant } = result
 
-  console.log({ framework })
-  console.log({ variant })
   const root = path.join(cwd, targetDir)
 
   if (overwrite) {
