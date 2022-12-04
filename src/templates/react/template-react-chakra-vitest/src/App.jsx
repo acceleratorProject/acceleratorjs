@@ -11,7 +11,7 @@ function App() {
       bg='gray.800'
     >
       <Heading as='h1' color='purple.300'>
-        Vite + React + Chakra UI + Vitest
+      Vite + React + Chakra UI + Vitest
       </Heading>
     </Stack>
   )

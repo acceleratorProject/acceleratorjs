@@ -32,6 +32,7 @@ module.exports = {
   global: {
     describe: 'writable',
     it: 'writable',
-    expect: 'writable'
+    expect: 'writable',
+    cy: 'writable'
   }
 }

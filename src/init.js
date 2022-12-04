@@ -20,8 +20,8 @@ const FRAMEWORKS = [
         color: green,
         variants: [
           {
-            name: 'react-chakra-vitest',
-            display: 'CSS Modules + Vitest',
+            name: 'react-vitest',
+            display: 'Vitest',
             color: green
           },
           {
@@ -52,8 +52,8 @@ const FRAMEWORKS = [
         color: blue,
         variants: [
           {
-            name: 'react-cssModules-cypress',
-            display: 'CSS Modules + Cypress',
+            name: 'react-cypress',
+            display: 'Cypress',
             color: green
           },
           {
@@ -84,8 +84,8 @@ const FRAMEWORKS = [
         color: yellow,
         variants: [
           {
-            name: 'react-cssModules-vitest-cypress',
-            display: 'CSS Modules + Vitest + Cypress',
+            name: 'react-vitest-cypress',
+            display: 'Vitest + Cypress',
             color: green
           },
           {
@@ -120,11 +120,6 @@ const FRAMEWORKS = [
             name: 'react',
             display: 'Only React ',
             color: cyan
-          },
-          {
-            name: 'react-cssModules',
-            display: 'CSS Modules',
-            color: green
           },
           {
             name: 'react-chakra',
@@ -162,8 +157,8 @@ const FRAMEWORKS = [
         color: green,
         variants: [
           {
-            name: 'vanilla-cssModules-vitest',
-            display: 'CSS Modules + Vitest ',
+            name: 'vanilla-vitest',
+            display: 'Vitest ',
             color: green
           },
           {
@@ -184,8 +179,8 @@ const FRAMEWORKS = [
         color: blue,
         variants: [
           {
-            name: 'vanilla-cssModules-cypress',
-            display: 'CSS Modules + Cypress',
+            name: 'vanilla-cypress',
+            display: 'Cypress',
             color: green
           },
           {
@@ -206,8 +201,8 @@ const FRAMEWORKS = [
         color: yellow,
         variants: [
           {
-            name: 'vanilla-cssModules-vitest-cypress',
-            display: 'CSS Modules + Vitest + Cypress',
+            name: 'vanilla-vitest-cypress',
+            display: 'Vitest + Cypress',
             color: green
           },
           {
@@ -231,11 +226,6 @@ const FRAMEWORKS = [
             name: 'vanilla',
             display: 'Only Vanilla ',
             color: yellow
-          },
-          {
-            name: 'vanilla-cssModules',
-            display: 'CSS Modules',
-            color: green
           },
           {
             name: 'vanilla-boostrap',
