@@ -1,10 +1,17 @@
 {
-  "name": "@acceleratorproject/acceleratorjs",
-  "version": "0.0.0",
+  "name": "create-acceleratorjs",
+  "version": "2.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/index.js",
+    "lint:fix": "eslint --fix --ext .js .",
+    "prettier:format": "prettier --config .prettierrc src//*.ts --write",
+    "prettier:watch": "onchange src//*.js -- prettier --write {{changed}}"
+  },
+  "bin": {
+    "acceleratorjs": "index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +22,30 @@
   "bugs": {
     "url": "https://github.com/acceleratorProject/acceleratorjs/issues"
   },
-  "homepage": "https://github.com/acceleratorProject/acceleratorjs#readme"
+  "homepage": "https://github.com/acceleratorProject/acceleratorjs#readme",
+  "devDependencies": {
+    "eslint": "^8.0.1",
+    "onchange": "^7.1.0",
+    "prettier": "^2.8.0",
+    "standard": "^17.0.0"
+  },
+  "dependencies": {
+    "enquirer": "^2.3.6",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "kolorist": "^1.6.0",
+    "minimist": "^1.2.7",
+    "mri": "^1.2.0",
+    "prompts": "^2.4.2",
+    "semver": "^7.3.8"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/standard/eslintrc.json"
+    ],
+    "rules": {
+      "space-before-function-paren": "off",
+      "indent": "off"
+    }
+  }
 }
