@@ -21,27 +21,27 @@ const FRAMEWORKS = [
         variants: [
           {
             name: 'react-vitest',
-            display: 'Vitest',
+            display: 'CSS',
             color: green
           },
           {
             name: 'react-chakra-vitest',
-            display: 'Chakra UI + Vitest',
+            display: 'Chakra UI',
             color: red
           },
           {
             name: 'react-mui-vitest',
-            display: 'MUI + Vitest',
+            display: 'MUI',
             color: blue
           },
           {
             name: 'react-tailwind-vitest',
-            display: 'Tailwind + Vitest',
+            display: 'Tailwind',
             color: magenta
           },
           {
             name: 'react-styled-components-vitest',
-            display: 'Styled-Components + Vitest',
+            display: 'Styled-Components',
             color: cyan
           }
         ]
@@ -53,27 +53,27 @@ const FRAMEWORKS = [
         variants: [
           {
             name: 'react-cypress',
-            display: 'Cypress',
+            display: 'CSS',
             color: green
           },
           {
             name: 'react-chakra-cypress',
-            display: 'Chakra UI + Cypress',
+            display: 'Chakra UI ',
             color: red
           },
           {
             name: 'react-mui-cypress',
-            display: 'MUI + Cypress',
+            display: 'MUI',
             color: blue
           },
           {
             name: 'react-tailwind-cypress',
-            display: 'Tailwind + Cypress',
+            display: 'Tailwind',
             color: magenta
           },
           {
             name: 'react-styled-components-cypress',
-            display: 'Styled-Components + Cypress',
+            display: 'Styled-Components',
             color: cyan
           }
         ]
@@ -85,27 +85,27 @@ const FRAMEWORKS = [
         variants: [
           {
             name: 'react-vitest-cypress',
-            display: 'Vitest + Cypress',
+            display: 'CSS',
             color: green
           },
           {
             name: 'react-chakra-vitest-cypress',
-            display: 'Chakra UI + Vitest + Cypress',
+            display: 'Chakra UI',
             color: red
           },
           {
             name: 'react-mui-vitest-cypress',
-            display: 'MUI + Vitest + Cypress',
+            display: 'MUI',
             color: blue
           },
           {
             name: 'react-tailwind-vitest-cypress',
-            display: 'Tailwind + Vitest + Cypress',
+            display: 'Tailwind',
             color: magenta
           },
           {
             name: 'react-styled-components-vitest-cypress',
-            display: 'Styled-Components + Vitest + Cypress',
+            display: 'Styled-Components',
             color: cyan
           }
         ]
@@ -158,12 +158,12 @@ const FRAMEWORKS = [
         variants: [
           {
             name: 'vanilla-vitest',
-            display: 'Vitest ',
+            display: 'CSS ',
             color: green
           },
           {
             name: 'vanilla-tailwind-vitest',
-            display: 'Tailwind + Vitest',
+            display: 'Tailwind',
             color: magenta
           }
         ]
@@ -175,12 +175,12 @@ const FRAMEWORKS = [
         variants: [
           {
             name: 'vanilla-cypress',
-            display: 'Cypress',
+            display: 'CSS',
             color: green
           },
           {
             name: 'vanilla-tailwind-cypress',
-            display: 'Tailwind + Cypress',
+            display: 'Tailwind',
             color: magenta
           }
         ]
@@ -192,12 +192,12 @@ const FRAMEWORKS = [
         variants: [
           {
             name: 'vanilla-vitest-cypress',
-            display: 'Vitest + Cypress',
+            display: 'CSS',
             color: green
           },
           {
             name: 'vanilla-tailwind-vitest-cypress',
-            display: 'Tailwind + Vitest + Cypress',
+            display: 'Tailwind',
             color: magenta
           }
         ]
@@ -209,8 +209,8 @@ const FRAMEWORKS = [
         variants: [
           {
             name: 'vanilla',
-            display: 'Only Vanilla ',
-            color: yellow
+            display: 'CSS',
+            color: green
           },
           {
             name: 'vanilla-tailwind',
@@ -293,7 +293,7 @@ export async function init() {
               ? reset(
                   `"${argTemplate}" isn't a valid template. Please choose from below: `
                 )
-              : reset('Select a framework:'),
+              : reset('What would you like to use?'),
           initial: 0,
           choices: FRAMEWORKS.map((framework) => {
             const frameworkColor = framework.color
@@ -308,7 +308,7 @@ export async function init() {
             return framework && framework.variants ? 'select' : null
           },
           name: 'testing',
-          message: `What do you want to use to test ${getProjectName()}?`,
+          message: 'What do you want to use to test?',
           choices: (framework) => {
             return framework.variants.map((library) => {
               const libraryColor = library.color
@@ -369,6 +369,7 @@ export async function init() {
     `../templates/${framework?.name}`,
     `template-${template}`
   )
+  console.log(templateDir)
 
   const write = (file, content) => {
     const targetPath = path.join(root, renameFiles[file] ?? file)
@@ -379,7 +380,6 @@ export async function init() {
     }
   }
 
-  console.log(templateDir)
   const files = fs.readdirSync(templateDir)
 
   for (const file of files.filter((f) => f !== 'package.json')) {
@@ -405,20 +405,21 @@ function indications(
 
   write('package.json', JSON.stringify(pkg, null, 2))
 
-  console.log('\nDone. Now run:\n')
-  if (root !== cwd) {
-    console.log(`  cd ${path.relative(cwd, root)}`)
-  }
-  switch (pkgManager) {
-    case 'yarn':
-      console.log('  yarn')
-      console.log('  yarn dev')
-      break
-    default:
-      console.log(`  ${pkgManager} install`)
-      console.log(`  ${pkgManager} run dev`)
-      break
-  }
+  const pkgManagerInstructions =
+    pkgManager === 'yarn'
+      ? 'yarn -> Install dependencies      yarn dev -> Run application in development mode\n      Start Developing 🔥\n      You can also learn more about this template here -> https://example.es'
+      : `${pkgManager} install -> Install dependencies\n      ${pkgManager} run dev -> Run application in development mode\n      Start Developing 🔥\n      You can also learn more about this template here -> https://example.es`
+  const instructions = `
+    Done Now Run:
+      ${
+        root !== cwd
+          ? `cd ${path.relative(cwd, root)} -> Enter in the folder`
+          : ''
+      }
+      ${pkgManagerInstructions}
+  `
+
+  console.log(instructions)
 }
 
 /* When vite is executed with the name parameters of the template and the template transforms the \\ in the name into \  example npm create vite \\myproject\\ --template react -> formatTargetDir transfrom \\myproject\\ to \myproject\
