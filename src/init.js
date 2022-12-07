@@ -20,7 +20,7 @@ const FRAMEWORKS = [
         color: green,
         variants: [
           {
-            name: 'react-vitest',
+            name: 'react-css-vitest',
             display: 'CSS',
             color: green
           },
@@ -40,7 +40,7 @@ const FRAMEWORKS = [
             color: magenta
           },
           {
-            name: 'react-styled-components-vitest',
+            name: 'react-styledComponents-vitest',
             display: 'Styled-Components',
             color: cyan
           }
@@ -52,7 +52,7 @@ const FRAMEWORKS = [
         color: blue,
         variants: [
           {
-            name: 'react-cypress',
+            name: 'react-css-cypress',
             display: 'CSS',
             color: green
           },
@@ -72,7 +72,7 @@ const FRAMEWORKS = [
             color: magenta
           },
           {
-            name: 'react-styled-components-cypress',
+            name: 'react-styledComponents-cypress',
             display: 'Styled-Components',
             color: cyan
           }
@@ -84,7 +84,7 @@ const FRAMEWORKS = [
         color: yellow,
         variants: [
           {
-            name: 'react-vitest-cypress',
+            name: 'react-css-vitest-cypress',
             display: 'CSS',
             color: green
           },
@@ -104,7 +104,7 @@ const FRAMEWORKS = [
             color: magenta
           },
           {
-            name: 'react-styled-components-vitest-cypress',
+            name: 'react-styledComponents-vitest-cypress',
             display: 'Styled-Components',
             color: cyan
           }
@@ -117,7 +117,7 @@ const FRAMEWORKS = [
         color: red,
         variants: [
           {
-            name: 'react',
+            name: 'react-css',
             display: 'Only React ',
             color: cyan
           },
@@ -137,7 +137,7 @@ const FRAMEWORKS = [
             color: magenta
           },
           {
-            name: 'react-styled-components',
+            name: 'react-styledComponents',
             display: 'Styled-Components',
             color: cyan
           }
@@ -157,7 +157,7 @@ const FRAMEWORKS = [
         color: green,
         variants: [
           {
-            name: 'vanilla-vitest',
+            name: 'vanilla-css-vitest',
             display: 'CSS ',
             color: green
           },
@@ -174,7 +174,7 @@ const FRAMEWORKS = [
         color: blue,
         variants: [
           {
-            name: 'vanilla-cypress',
+            name: 'vanilla-css-cypress',
             display: 'CSS',
             color: green
           },
@@ -191,7 +191,7 @@ const FRAMEWORKS = [
         color: yellow,
         variants: [
           {
-            name: 'vanilla-vitest-cypress',
+            name: 'vanilla-css-vitest-cypress',
             display: 'CSS',
             color: green
           },
@@ -208,9 +208,9 @@ const FRAMEWORKS = [
         color: red,
         variants: [
           {
-            name: 'vanilla',
-            display: 'CSS',
-            color: green
+            name: 'vanilla-css',
+            display: 'Only Vanilla',
+            color: yellow
           },
           {
             name: 'vanilla-tailwind',
@@ -223,9 +223,9 @@ const FRAMEWORKS = [
   }
 ]
 
-const TEMPLATES = FRAMEWORKS.map(
-  (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name]
-).reduce((a, b) => a.concat(b), [])
+const TEMPLATES = FRAMEWORKS.map(({ variants: options }) =>
+  options.map(({ variants }) => variants.map(({ name }) => name))
+).flat(Infinity)
 
 const renameFiles = {
   _gitignore: '.gitignore'
@@ -348,7 +348,7 @@ export async function init() {
     return
   }
 
-  const { framework, overwrite, packageName, variant } = result
+  const { overwrite, packageName, variant } = result
 
   const root = path.join(cwd, targetDir)
 
@@ -358,7 +358,7 @@ export async function init() {
     fs.mkdirSync(root, { recursive: true })
   }
 
-  const template = variant || framework?.name || argTemplate
+  const template = variant || argTemplate
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
   const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
@@ -366,10 +366,8 @@ export async function init() {
   // Extract template dir
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
-    `../templates/${framework?.name}`,
-    `template-${template}`
+    extractTemplatePath(template)
   )
-  console.log(templateDir)
 
   const write = (file, content) => {
     const targetPath = path.join(root, renameFiles[file] ?? file)
@@ -391,6 +389,20 @@ export async function init() {
   )
 
   indications(pkg, packageName, getProjectName, write, root, pkgManager)
+}
+const extractTemplatePath = (variant) => {
+  const splitVariant = variant.split('-')
+  const templetePath = ['../templates']
+  splitVariant.forEach((e, i) => {
+    if (e === 'vitest' && splitVariant[i + 1] === 'cypress') {
+      templetePath.push('/vitest-cypress')
+      return
+    }
+    if (templetePath.includes('/vitest-cypress')) return
+    templetePath.push(`/${e}`)
+  })
+  templetePath.push('/template')
+  return templetePath.toString().replaceAll(',', '')
 }
 
 function indications(
@@ -422,8 +434,6 @@ function indications(
   console.log(instructions)
 }
 
-/* When vite is executed with the name parameters of the template and the template transforms the \\ in the name into \  example npm create vite \\myproject\\ --template react -> formatTargetDir transfrom \\myproject\\ to \myproject\
- */
 function formatTargetDir(targetDir) {
   return targetDir?.trim().replace(/\/+$/g, '')
 }
