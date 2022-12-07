@@ -65,7 +65,7 @@ export function pkgFromUserAgent(userAgent) {
   }
 }
 
-export const extractTemplatePath = (variant) => {
+export const extractTemplatePath = (variant, customTheme) => {
   const splitVariant = variant.split('-')
   const templetePath = ['../templates']
   splitVariant.forEach((e, i) => {
@@ -76,7 +76,9 @@ export const extractTemplatePath = (variant) => {
     if (templetePath.includes('/vitest-cypress')) return
     templetePath.push(`/${e}`)
   })
-  templetePath.push('/template')
+  customTheme
+    ? templetePath.push('/customTheme/template')
+    : templetePath.push('/template')
   return templetePath.toString().replaceAll(',', '')
 }
 

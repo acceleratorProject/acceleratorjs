@@ -6,15 +6,15 @@ import { fileURLToPath } from 'node:url'
 import prompts from 'prompts'
 import { FRAMEWORKS } from './utils/frameworks.js'
 import {
-  formatTargetDir,
   copy,
-  isValidPackageName,
-  toValidPackageName,
-  isEmpty,
   emptyDir,
-  pkgFromUserAgent,
   extractTemplatePath,
-  indications
+  formatTargetDir,
+  indications,
+  isEmpty,
+  isValidPackageName,
+  pkgFromUserAgent,
+  toValidPackageName
 } from './utils/utils.js'
 
 const argv = minimist(process.argv.slice(2), { string: ['_'] })
@@ -131,6 +131,14 @@ export async function init() {
               }
             })
           }
+        },
+        {
+          type: (_, data) =>
+            data.framework.name === 'vanilla' || data.variant.includes('css')
+              ? null
+              : 'confirm',
+          name: 'customTheme',
+          message: 'Do you want to use a custom theme?🎨'
         }
       ],
       {
@@ -145,7 +153,7 @@ export async function init() {
     return
   }
 
-  const { overwrite, packageName, variant } = result
+  const { overwrite, packageName, variant, customTheme } = result
 
   const root = path.join(cwd, targetDir)
 
@@ -163,7 +171,7 @@ export async function init() {
   // Extract template dir
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
-    extractTemplatePath(template)
+    extractTemplatePath(template, customTheme)
   )
 
   const write = (file, content) => {
