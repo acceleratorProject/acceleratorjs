@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node index.js",
     "lint:fix": "eslint --fix --ext .js .",
     "prettier:format": "prettier --config .prettierrc src//*.ts --write",
     "prettier:watch": "onchange src//*.js -- prettier --write {{changed}}"
