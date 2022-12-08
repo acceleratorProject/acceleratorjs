@@ -32,6 +32,11 @@ export const FRAMEWORKS = [
             color: magenta
           },
           {
+            name: 'react-emotion-vitest',
+            display: 'Emotion',
+            color: yellow
+          },
+          {
             name: 'react-styledComponents-vitest',
             display: 'Styled-Components',
             color: cyan
@@ -62,6 +67,11 @@ export const FRAMEWORKS = [
             name: 'react-tailwind-cypress',
             display: 'Tailwind',
             color: magenta
+          },
+          {
+            name: 'react-emotion-cypress',
+            display: 'Emotion',
+            color: yellow
           },
           {
             name: 'react-styledComponents-cypress',
@@ -96,6 +106,11 @@ export const FRAMEWORKS = [
             color: magenta
           },
           {
+            name: 'react-emotion-vitest-cypress',
+            display: 'Emotion',
+            color: yellow
+          },
+          {
             name: 'react-styledComponents-vitest-cypress',
             display: 'Styled-Components',
             color: cyan
@@ -127,6 +142,11 @@ export const FRAMEWORKS = [
             name: 'react-tailwind',
             display: 'Tailwind',
             color: magenta
+          },
+          {
+            name: 'react-emotion',
+            display: 'Emotion',
+            color: yellow
           },
           {
             name: 'react-styledComponents',
