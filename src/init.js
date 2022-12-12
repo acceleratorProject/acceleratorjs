@@ -1,231 +1,28 @@
-import { blue, cyan, green, magenta, red, reset, yellow } from 'kolorist'
+import { red, reset } from 'kolorist'
 import minimist from 'minimist'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import prompts from 'prompts'
+import { FRAMEWORKS } from './utils/frameworks.js'
+import {
+  copy,
+  emptyDir,
+  extractTemplatePath,
+  formatTargetDir,
+  indications,
+  isEmpty,
+  isValidPackageName,
+  pkgFromUserAgent,
+  toValidPackageName
+} from './utils/utils.js'
 
 const argv = minimist(process.argv.slice(2), { string: ['_'] })
 const cwd = process.cwd()
 
-const FRAMEWORKS = [
-  {
-    name: 'react',
-    display: 'React',
-    color: cyan,
-    variants: [
-      {
-        name: 'vitest',
-        display: 'Vitest',
-        color: green,
-        variants: [
-          {
-            name: 'react-vitest',
-            display: 'CSS',
-            color: green
-          },
-          {
-            name: 'react-chakra-vitest',
-            display: 'Chakra UI',
-            color: red
-          },
-          {
-            name: 'react-mui-vitest',
-            display: 'MUI',
-            color: blue
-          },
-          {
-            name: 'react-tailwind-vitest',
-            display: 'Tailwind',
-            color: magenta
-          },
-          {
-            name: 'react-styled-components-vitest',
-            display: 'Styled-Components',
-            color: cyan
-          }
-        ]
-      },
-      {
-        name: 'cypress',
-        display: 'Cypress',
-        color: blue,
-        variants: [
-          {
-            name: 'react-cypress',
-            display: 'CSS',
-            color: green
-          },
-          {
-            name: 'react-chakra-cypress',
-            display: 'Chakra UI ',
-            color: red
-          },
-          {
-            name: 'react-mui-cypress',
-            display: 'MUI',
-            color: blue
-          },
-          {
-            name: 'react-tailwind-cypress',
-            display: 'Tailwind',
-            color: magenta
-          },
-          {
-            name: 'react-styled-components-cypress',
-            display: 'Styled-Components',
-            color: cyan
-          }
-        ]
-      },
-      {
-        name: 'vitest&cypress',
-        display: 'Vitest & Cypress',
-        color: yellow,
-        variants: [
-          {
-            name: 'react-vitest-cypress',
-            display: 'CSS',
-            color: green
-          },
-          {
-            name: 'react-chakra-vitest-cypress',
-            display: 'Chakra UI',
-            color: red
-          },
-          {
-            name: 'react-mui-vitest-cypress',
-            display: 'MUI',
-            color: blue
-          },
-          {
-            name: 'react-tailwind-vitest-cypress',
-            display: 'Tailwind',
-            color: magenta
-          },
-          {
-            name: 'react-styled-components-vitest-cypress',
-            display: 'Styled-Components',
-            color: cyan
-          }
-        ]
-      },
-
-      {
-        name: 'none',
-        display: 'None',
-        color: red,
-        variants: [
-          {
-            name: 'react',
-            display: 'Only React ',
-            color: cyan
-          },
-          {
-            name: 'react-chakra',
-            display: 'Chakra UI',
-            color: red
-          },
-          {
-            name: 'react-mui',
-            display: 'MUI',
-            color: blue
-          },
-          {
-            name: 'react-tailwind',
-            display: 'Tailwind',
-            color: magenta
-          },
-          {
-            name: 'react-styled-components',
-            display: 'Styled-Components',
-            color: cyan
-          }
-        ]
-      }
-    ]
-  },
-
-  {
-    name: 'vanilla',
-    display: 'Vanilla',
-    color: yellow,
-    variants: [
-      {
-        name: 'vitest',
-        display: 'Vitest',
-        color: green,
-        variants: [
-          {
-            name: 'vanilla-vitest',
-            display: 'CSS ',
-            color: green
-          },
-          {
-            name: 'vanilla-tailwind-vitest',
-            display: 'Tailwind',
-            color: magenta
-          }
-        ]
-      },
-      {
-        name: 'cypress',
-        display: 'Cypress',
-        color: blue,
-        variants: [
-          {
-            name: 'vanilla-cypress',
-            display: 'CSS',
-            color: green
-          },
-          {
-            name: 'vanilla-tailwind-cypress',
-            display: 'Tailwind',
-            color: magenta
-          }
-        ]
-      },
-      {
-        name: 'vitest&cypress',
-        display: 'Vitest & Cypress',
-        color: yellow,
-        variants: [
-          {
-            name: 'vanilla-vitest-cypress',
-            display: 'CSS',
-            color: green
-          },
-          {
-            name: 'vanilla-tailwind-vitest-cypress',
-            display: 'Tailwind',
-            color: magenta
-          }
-        ]
-      },
-      {
-        name: 'none',
-        display: 'None',
-        color: red,
-        variants: [
-          {
-            name: 'vanilla',
-            display: 'CSS',
-            color: green
-          },
-          {
-            name: 'vanilla-tailwind',
-            display: 'Tailwind ',
-            color: magenta
-          }
-        ]
-      }
-    ]
-  }
-]
-
-const TEMPLATES = FRAMEWORKS.map(
-  (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name]
-).reduce((a, b) => a.concat(b), [])
+const TEMPLATES = FRAMEWORKS.map(({ variants: options }) =>
+  options.map(({ variants }) => variants.map(({ name }) => name))
+).flat(Infinity)
 
 const renameFiles = {
   _gitignore: '.gitignore'
@@ -334,6 +131,14 @@ export async function init() {
               }
             })
           }
+        },
+        {
+          type: (_, data) =>
+            data.framework.name === 'vanilla' || data.variant.includes('css')
+              ? null
+              : 'confirm',
+          name: 'customTheme',
+          message: 'Do you want to use a custom theme?🎨'
         }
       ],
       {
@@ -348,7 +153,7 @@ export async function init() {
     return
   }
 
-  const { framework, overwrite, packageName, variant } = result
+  const { overwrite, packageName, variant, customTheme } = result
 
   const root = path.join(cwd, targetDir)
 
@@ -358,7 +163,7 @@ export async function init() {
     fs.mkdirSync(root, { recursive: true })
   }
 
-  const template = variant || framework?.name || argTemplate
+  const template = variant || argTemplate
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
   const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
@@ -366,10 +171,8 @@ export async function init() {
   // Extract template dir
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
-    `../templates/${framework?.name}`,
-    `template-${template}`
+    extractTemplatePath(template, customTheme)
   )
-  console.log(templateDir)
 
   const write = (file, content) => {
     const targetPath = path.join(root, renameFiles[file] ?? file)
@@ -390,100 +193,5 @@ export async function init() {
     fs.readFileSync(path.join(templateDir, 'package.json'), 'utf-8')
   )
 
-  indications(pkg, packageName, getProjectName, write, root, pkgManager)
-}
-
-function indications(
-  pkg,
-  packageName,
-  getProjectName,
-  write,
-  root,
-  pkgManager
-) {
-  pkg.name = packageName || getProjectName()
-
-  write('package.json', JSON.stringify(pkg, null, 2))
-
-  const pkgManagerInstructions =
-    pkgManager === 'yarn'
-      ? 'yarn -> Install dependencies      yarn dev -> Run application in development mode\n      Start Developing 🔥\n      You can also learn more about this template here -> https://example.es'
-      : `${pkgManager} install -> Install dependencies\n      ${pkgManager} run dev -> Run application in development mode\n      Start Developing 🔥\n      You can also learn more about this template here -> https://example.es`
-  const instructions = `
-    Done Now Run:
-      ${
-        root !== cwd
-          ? `cd ${path.relative(cwd, root)} -> Enter in the folder`
-          : ''
-      }
-      ${pkgManagerInstructions}
-  `
-
-  console.log(instructions)
-}
-
-/* When vite is executed with the name parameters of the template and the template transforms the \\ in the name into \  example npm create vite \\myproject\\ --template react -> formatTargetDir transfrom \\myproject\\ to \myproject\
- */
-function formatTargetDir(targetDir) {
-  return targetDir?.trim().replace(/\/+$/g, '')
-}
-
-function copy(src, dest) {
-  const stat = fs.statSync(src)
-  if (stat.isDirectory()) {
-    copyDir(src, dest)
-  } else {
-    fs.copyFileSync(src, dest)
-  }
-}
-
-function isValidPackageName(projectName) {
-  return /^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(
-    projectName
-  )
-}
-
-function toValidPackageName(projectName) {
-  return projectName
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/^[._]/, '')
-    .replace(/[^a-z\d\-~]+/g, '-')
-}
-
-function copyDir(srcDir, destDir) {
-  fs.mkdirSync(destDir, { recursive: true })
-  for (const file of fs.readdirSync(srcDir)) {
-    const srcFile = path.resolve(srcDir, file)
-    const destFile = path.resolve(destDir, file)
-    copy(srcFile, destFile)
-  }
-}
-
-function isEmpty(path) {
-  const files = fs.readdirSync(path)
-  return files.length === 0 || (files.length === 1 && files[0] === '.git')
-}
-
-function emptyDir(dir) {
-  if (!fs.existsSync(dir)) {
-    return
-  }
-  for (const file of fs.readdirSync(dir)) {
-    if (file === '.git') {
-      continue
-    }
-    fs.rmSync(path.resolve(dir, file), { recursive: true, force: true })
-  }
-}
-
-function pkgFromUserAgent(userAgent) {
-  if (!userAgent) return undefined
-  const pkgSpec = userAgent.split(' ')[0]
-  const pkgSpecArr = pkgSpec.split('/')
-  return {
-    name: pkgSpecArr[0],
-    version: pkgSpecArr[1]
-  }
+  indications(pkg, packageName, getProjectName, write, root, pkgManager, cwd)
 }
