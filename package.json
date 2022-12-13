@@ -1,14 +1,17 @@
 {
   "name": "create-acceleratorjs",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "type": "module",
   "description": "",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "template-*",
+    "dist"
+  ],
   "scripts": {
-    "start": "node index.js",
-    "lint:fix": "eslint --fix --ext .js .",
-    "prettier:format": "prettier --config .prettierrc src//*.ts --write",
-    "prettier:watch": "onchange src//*.js -- prettier --write {{changed}}"
+    "dev": "node index.js",
+    "build": "unbuild"
   },
   "bin": {
     "acceleratorjs": "index.js"
@@ -24,20 +27,19 @@
   },
   "homepage": "https://github.com/acceleratorProject/acceleratorjs#readme",
   "devDependencies": {
-    "eslint": "^8.0.1",
-    "onchange": "^7.1.0",
-    "prettier": "^2.8.0",
-    "standard": "^17.0.0"
-  },
-  "dependencies": {
     "enquirer": "^2.3.6",
+    "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "kolorist": "^1.6.0",
     "minimist": "^1.2.7",
     "mri": "^1.2.0",
+    "prettier": "^2.8.0",
     "prompts": "^2.4.2",
-    "semver": "^7.3.8"
+    "rollup": "^3.7.4",
+    "semver": "^7.3.8",
+    "standard": "^17.0.0",
+    "unbuild": "^1.0.2"
   },
   "eslintConfig": {
     "extends": [
