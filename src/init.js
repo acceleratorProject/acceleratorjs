@@ -36,7 +36,6 @@ export async function init() {
 
   let targetDir = argTargetDir || defaultTargetDir
 
-  /* If the user puts the name of the project a . the name of the project will be the name of the directory in which it is */
   const getProjectName = () =>
     targetDir === '.' ? path.basename(path.resolve()) : targetDir
 
@@ -169,8 +168,9 @@ export async function init() {
   const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
 
   // Extract template dir
+  const replaceDist = import.meta.url.replace(/dist/g, 'src')
   const templateDir = path.resolve(
-    fileURLToPath(import.meta.url),
+    fileURLToPath(replaceDist),
     extractTemplatePath(template, customTheme)
   )
 
@@ -195,3 +195,5 @@ export async function init() {
 
   indications(pkg, packageName, getProjectName, write, root, pkgManager, cwd)
 }
+
+init().catch((e) => console.error(e))
