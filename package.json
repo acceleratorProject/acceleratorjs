@@ -1,6 +1,6 @@
 {
   "name": "create-acceleratorjs",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "type": "module",
   "description": "",
   "main": "index.js",
